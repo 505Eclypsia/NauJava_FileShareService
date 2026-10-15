@@ -1,71 +1,86 @@
 package ru.Vlad.NauJava.entity;
 
-import java.io.File;
+import jakarta.persistence.*;
 
+import java.time.Instant;
+
+
+@Entity
+@Table(name = "files")
 public class FileItem {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String originalName;
-    private String downloadCode;
-    private Long size;
-    private String uploadDate;
+
+    @Column
+    private String name;
+
+    @Column(name="size_bytes")
+    private Long sizeBytes;
+
+    @Column(name="created_at")
+    private Instant createdAt;
+
+    @ManyToOne
+    @JoinColumn(name="packet_id", nullable = false)
+    private Packet packet;
+
 
     public FileItem(){
     }
 
-    public FileItem(Long id, String originalName, String downloadCode, Long size, String uploadDate) {
+    public FileItem(Long id, String name, Long sizeBytes, Instant createdAt) {
         this.id = id;
-        this.originalName = originalName;
-        this.downloadCode = downloadCode;
-        this.size = size;
-        this.uploadDate = uploadDate;
+        this.name = name;
+        this.sizeBytes = sizeBytes;
+        this.createdAt = createdAt;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getOriginalName() {
-        return originalName;
-    }
-
-    public String getDownloadCode() {
-        return downloadCode;
-    }
-
-    public Long getSize() {
-        return size;
-    }
-
-    public String getUploadDate() {
-        return uploadDate;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setOriginalName(String originalName) {
-        this.originalName = originalName;
+    public String getName() {
+        return name;
     }
 
-    public void setDownloadCode(String downloadCode) {
-        this.downloadCode = downloadCode;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setSize(Long size) {
-        this.size = size;
+    public Long getSizeBytes() {
+        return sizeBytes;
     }
 
-    public void setUploadDate(String uploadDate) {
-        this.uploadDate = uploadDate;
+    public void setSizeBytes(Long sizeBytes) {
+        this.sizeBytes = sizeBytes;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Packet getPacket() {
+        return packet;
+    }
+
+    public void setPacket(Packet packet) {
+        this.packet = packet;
     }
 
     @Override
     public String toString() {
         return "Файл [ID: " + id +
-                ", Имя: '" + originalName + '\'' +
-                ", Размер: " + size + " байт" +
-                ", Код скачивания: '" + downloadCode + '\'' +
-                ", Дата: " + uploadDate + "]";
+                ", Имя: '" + name + '\'' +
+                ", Размер: " + sizeBytes + " байт" +
+                ", Дата: " + createdAt + "]";
     }
 }
