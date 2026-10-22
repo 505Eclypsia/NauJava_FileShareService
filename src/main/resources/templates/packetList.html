@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <title>Packet List</title>
+</head>
+<body>
+<h1>Packet List</h1>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Имя</th>
+        <th>UUID пакета</th>
+        <th>Дата последнего изменения</th>
+    </tr>
+    <tr th:each="packet : ${packets}">
+        <td th:text="${packet.id}"></td>
+        <td th:text="${packet.name}"></td>
+        <td th:text="${packet.storageUUID}"></td>
+        <td th:text="${packet.changedAt}"></td>
+    </tr>
+</table>
+</body>
+</html>
