@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
-import ru.Vlad.NauJava.command.CommandProcessor;
+//import ru.Vlad.NauJava.command.CommandProcessor;
 import ru.Vlad.NauJava.entity.FileItem;
 
 
@@ -31,9 +31,9 @@ public class Config {
         return appVersion;
     }
 
-    @Autowired
-    @Lazy
-    private CommandProcessor commandProcessor;
+//    @Autowired
+//    @Lazy
+//    private CommandProcessor commandProcessor;
 
     @Bean
     @Scope(value = BeanDefinition.SCOPE_SINGLETON)
@@ -41,23 +41,23 @@ public class Config {
         return new ArrayList<>();
     }
 
-    @Bean
-    public CommandLineRunner commandScanner() {
-        return args ->
-        {
-            try (Scanner scanner = new Scanner(System.in)) {
-                System.out.println("Введите команду. 'exit' для выхода.");
-                while (true) {
-                    System.out.print("> ");
-                    String input = scanner.nextLine();
-
-                    if ("exit".equalsIgnoreCase(input.trim())) {
-                        System.out.println("Выход из программы...");
-                        break;
-                    }
-                    commandProcessor.processCommand(input);
-                }
-            }
-        };
-    }
+//    @Bean
+//    public CommandLineRunner commandScanner() {
+//        return args ->
+//        {
+//            try (Scanner scanner = new Scanner(System.in)) {
+//                System.out.println("Введите команду. 'exit' для выхода.");
+//                while (true) {
+//                    System.out.print("> ");
+//                    String input = scanner.nextLine();
+//
+//                    if ("exit".equalsIgnoreCase(input.trim())) {
+//                        System.out.println("Выход из программы...");
+//                        break;
+//                    }
+//                    commandProcessor.processCommand(input);
+//                }
+//            }
+//        };
+//    }
 }
