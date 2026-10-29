@@ -84,17 +84,17 @@ class PacketTest {
         packet.setOwner(user);
         packetRepository.save(packet);
 
-        List<Packet> foundPackets = packetRepository.findByOwnerAndCreatedAtBetween(user,
+        List<Packet> foundPackets = packetRepository.findByOwnerIdAndCreatedAtBetween(user.getId(),
                 Instant.now().minus(Duration.ofMinutes(1)),
                 Instant.now());
         Assertions.assertEquals(packet.getId(), foundPackets.getFirst().getId());
 
-        List<Packet> foundPacketsFalse = packetRepository.findByOwnerAndCreatedAtBetween(user,
+        List<Packet> foundPacketsFalse = packetRepository.findByOwnerIdAndCreatedAtBetween(user.getId(),
                 Instant.now().minus(Duration.ofMinutes(10)),
                 Instant.now().minus(Duration.ofMinutes(5)));
         Assertions.assertTrue(foundPacketsFalse.isEmpty());
 
-        List<Packet> foundCustom = packetRepositoryCustom.findByOwnerAndCreatedAtBetween(user,
+        List<Packet> foundCustom = packetRepositoryCustom.findByOwnerAndCreatedAtBetween(user.getId(),
                 Instant.now().minus(Duration.ofMinutes(1)),
                 Instant.now());
         Assertions.assertEquals(packet.getId(), foundCustom.getFirst().getId());
