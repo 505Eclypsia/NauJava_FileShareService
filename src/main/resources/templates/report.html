@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="ru">
+<head>
+    <title>Отчет</title>
+</head>
+<body>
+    <h1>Отчет статистики файлообменника</h1>
+    <p><strong>Зарегистрировано пользователей:</strong> <span th:text="${userCount}"></span></p>
+    <p><strong>Время подсчета пользователей:</strong> <span th:text="${userCalcTime}"></span> мс</p>
+    <hr/>
+    <h2>Список пакетов в системе</h2>
+    <table border='1' cellpadding='5'>
+        <tr><th>ID</th><th>Название пакета</th><th>UUID хранилища</th><th>Дата создания</th></tr>
+        <tr th:each="packet : ${packets}">
+            <td th:text="${packet.id}"></td>
+            <td th:text="${packet.name}"></td>
+            <td th:text="${packet.storageUUID}"></td>
+            <td th:text="${packet.createdAt}"></td>
+        </tr>
+    </table>
+    <p><strong>Время выгрузки пакетов:</strong> <span th:text="${packetsCalcTime}"></span> мс</p>
+    <hr/>
+    <p><strong>Общее время формирования отчета:</strong> <span th:text="${totalTime}"></span> мс</p>
+</body>
+</html>
