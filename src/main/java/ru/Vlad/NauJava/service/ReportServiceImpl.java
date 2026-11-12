@@ -2,6 +2,8 @@ package ru.Vlad.NauJava.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 import ru.Vlad.NauJava.entity.Packet;
 import ru.Vlad.NauJava.entity.Report;
 import ru.Vlad.NauJava.entity.ReportStatus;
@@ -21,14 +23,17 @@ public class ReportServiceImpl implements ReportService {
     private final ReportRepository reportRepository;
     private final UserRepository userRepository;
     private final PacketRepository packetRepository;
+    private final TemplateEngine templateEngine;
 
     @Autowired
     public ReportServiceImpl(ReportRepository reportRepository,
                              UserRepository userRepository,
-                             PacketRepository packetRepository) {
+                             PacketRepository packetRepository,
+                             TemplateEngine templateEngine) {
         this.reportRepository = reportRepository;
         this.userRepository = userRepository;
         this.packetRepository = packetRepository;
+        this.templateEngine = templateEngine;
     }
 
     @Override
@@ -71,32 +76,18 @@ public class ReportServiceImpl implements ReportService {
                 packetsThread.join();
 
                 long totalTime = System.currentTimeMillis() - totalStartTime;
+                Context context = new Context();
+                context.setVariable("userCount", userCount.get());
+                context.setVariable("userCalcTime", userCalcTime.get());
+                context.setVariable("packets", packetsRef.get());
+                context.setVariable("packetsCalcTime", packetsCalcTime.get());
+                context.setVariable("totalTime", totalTime);
 
-                StringBuilder html = new StringBuilder();
-                html.append("<!DOCTYPE html><html><head><meta charset='UTF-8'><title>Отчет</title></head><body>");
-                html.append("<h1>Отчет статистики файлообменника</h1>");
-                html.append("<p><strong>Зарегистрировано пользователей:</strong> ").append(userCount.get()).append("</p>");
-                html.append("<p><strong>Время подсчета пользователей:</strong> ").append(userCalcTime.get()).append(" мс</p>");
-                html.append("<hr/>");
-                html.append("<h2>Список пакетов в системе</h2>");
-                html.append("<table border='1' cellpadding='5'><tr><th>ID</th><th>Название пакета</th><th>UUID хранилища</th><th>Дата создания</th></tr>");
-                for (Packet p : packetsRef.get()) {
-                    html.append("<tr>")
-                            .append("<td>").append(p.getId()).append("</td>")
-                            .append("<td>").append(p.getName()).append("</td>")
-                            .append("<td>").append(p.getStorageUUID()).append("</td>")
-                            .append("<td>").append(p.getCreatedAt()).append("</td>")
-                            .append("</tr>");
-                }
-                html.append("</table>");
-                html.append("<p><strong>Время выгрузки пакетов:</strong> ").append(packetsCalcTime.get()).append(" мс</p>");
-                html.append("<hr/>");
-                html.append("<p><strong>Общее время формирования отчета:</strong> ").append(totalTime).append(" мс</p>");
-                html.append("</body></html>");
+                String htmlContent = templateEngine.process("report", context);
 
                 Report report = reportRepository.findById(reportId).orElseThrow();
-                report.setContent(html.toString());
                 report.setStatus(ReportStatus.COMPLETED);
+                report.setContent(htmlContent);
                 reportRepository.save(report);
 
             } catch (Exception ex) {
