@@ -1,5 +1,6 @@
 package ru.Vlad.NauJava.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.Instant;
@@ -21,6 +22,7 @@ public class FileItem {
     @Column(name="created_at")
     private Instant createdAt;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="packet_id", nullable = false)
     private Packet packet;

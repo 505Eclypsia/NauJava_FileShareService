@@ -22,8 +22,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUser(User user) {
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
+    public void addUser(String username, String password) {
+        String encodedPassword = passwordEncoder.encode(password);
+        User user = new User();
+        user.setUsername(username);
         user.setPassword(encodedPassword);
         user.setRole(Role.USER);
         user.setCreatedAt(Instant.now());
