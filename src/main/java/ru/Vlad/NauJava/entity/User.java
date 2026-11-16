@@ -1,5 +1,7 @@
 package ru.Vlad.NauJava.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.Instant;
@@ -15,7 +17,8 @@ public class User {
     @Column(unique = true, nullable = false)
     private String username;
 
-    @Column (name = "password_hash")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Column(name = "password_hash")
     private String passwordHash;
 
     @Enumerated(EnumType.STRING)
@@ -25,6 +28,7 @@ public class User {
     @Column (name = "created_at")
     private Instant createdAt;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Packet> packets;
 

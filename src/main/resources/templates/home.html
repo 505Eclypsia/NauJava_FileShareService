@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+    <title>FileShareService</title>
+  </head>
+  <body>
+    <h1 id="title">FileShareService</h1>
+    <p>Вы вошли как <span id="username" th:text="${username}"></span></p>
+    <form th:action="@{/logout}" method="post">
+      <button id="logout" type="submit">Выйти</button>
+    </form>
+    <a th:href="@{/custom/packets/view/list}">Мои пакеты</a>
+  </body>
+</html>

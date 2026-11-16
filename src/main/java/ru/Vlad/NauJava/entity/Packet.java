@@ -1,12 +1,13 @@
 package ru.Vlad.NauJava.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "packets")
 public class Packet {

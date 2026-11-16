@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.Vlad.NauJava.entity.User;
 import ru.Vlad.NauJava.service.UserService;
 
@@ -19,11 +20,11 @@ public class RegistrationController
         return "registration";
     }
     @PostMapping("/registration")
-    public String adduser(User user, Model model)
+    public String adduser(@RequestParam String username, @RequestParam String password, Model model)
     {
         try
         {
-            userService.addUser(user);
+            userService.addUser(username, password);
             return "redirect:/login";
         }
         catch (Exception ex)

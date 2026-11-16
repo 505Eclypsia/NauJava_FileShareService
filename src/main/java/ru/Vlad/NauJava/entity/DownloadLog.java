@@ -1,5 +1,6 @@
 package ru.Vlad.NauJava.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.Instant;
@@ -21,6 +22,7 @@ public class DownloadLog {
     @Column(name = "created_at")
     private Instant createdAt;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "share_link_id", nullable = false)
     private ShareLink shareLink;
